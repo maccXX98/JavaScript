@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .calculadora {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            grid-column: span 4;
+            padding: 10px;
+            font-size: 24px;
+            text-align: right;
+            border: none;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .operador {
+            background-color: #f0c040;
+        }
+
+        .limpiar {
+            background-color: #ff6666;
+        }
+    </style>
+    <script>
+        let entrada = '';
+        let primerOperante = '';
+        let operador = '';
+
+        function agregarNumero(numero) {
+            entrada += numero;
+            actualizaPantalla();
+        }
+
+        function operacion(op) {
+            if (entrada !== '') {
+                primerOperante = entrada;
+                entrada = '';
+                operador = op;
+            }
+        }
+
+        function calcular() {
+            if (entrada !== '' && primerOperante !== '') {
+                const num1 = parseFloat(primerOperante);
+                const num2 = parseFloat(entrada);
+                switch (operador) {
+                    case '+':
+                        entrada = (num1 + num2).toString();
+                        break;
+                    case '-':
+                        entrada = (num1 - num2).toString();
+                        break;
+                    case '*':
+                        entrada = (num1 * num2).toString();
+                        break;
+                    case '/':
+                        entrada = (num1 / num2).toString();
+                        break;
+                }
+                primerOperante = '';
+                operador = '';
+                actualizaPantalla();
+            }
+        }
+
+        function limpiarResultado() {
+            entrada = '';
+            primerOperante = '';
+            operador = '';
+            actualizaPantalla();
+        }
+
+        function actualizaPantalla() {
+            document.getElementById('resultado').value = entrada;
+        }
+
+    </script>
+    <title>Calculadora JS</title>
+</head>
+
+<body>
+    <div class="calculadora">
+        <input type="text" id="resultado" readonly>
+        <button onclick="agregarNumero('7')">7</button>
+        <button onclick="agregarNumero('8')">8</button>
+        <button onclick="agregarNumero('9')">9</button>
+        <button class="operador" onclick="operacion('+')">+</button>
+        <button onclick="agregarNumero('4')">4</button>
+        <button onclick="agregarNumero('5')">5</button>
+        <button onclick="agregarNumero('6')">6</button>
+        <button class="operador" onclick="operacion('-')">-</button>
+        <button onclick="agregarNumero('1')">1</button>
+        <button onclick="agregarNumero('2')">2</button>
+        <button onclick="agregarNumero('3')">3</button>
+        <button class="operador" onclick="operacion('*')">*</button>
+        <button onclick="agregarNumero('0')">0</button>
+        <button onclick="calcular()">=</button>
+        <button class="operador" onclick="operacion('/')">/</button>
+        <button class="limpiar" onclick="limpiarResultado()">C</button>
+    </div>
+</body>
+
+</html>
